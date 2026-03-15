@@ -52,5 +52,20 @@ module.exports = {
         body('role').isEmpty().withMessage("role khong duoc thay doi"),
         body('avatarUrl').optional().isArray().withMessage("avatarURl pahi la 1 mang"),
         body('avatarUrl.*').isURL().withMessage("URL khong hop le"),
+    ],
+    // Validator cho chức năng đổi mật khẩu
+    ChangePasswordValidator: [
+        body('oldPassword')
+            .notEmpty().withMessage("oldPassword không được để trống"),
+        body('newPassword')
+            .notEmpty().withMessage("newPassword không được để trống")
+            .bail()
+            .isStrongPassword({
+                minLength: 8,
+                minLowercase: 1,
+                minNumbers: 1,
+                minSymbols: 1,
+                minUppercase: 1
+            }).withMessage("newPassword phải có ít nhất 8 ký tự, gồm: 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt"),
     ]
-}
+}
